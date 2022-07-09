@@ -24,5 +24,10 @@ int main(void)
     len2 = printf("Percent:[%%]\n");
     _printf("Unknown:[%r]\n");
     printf("Unknown:[%r]\n");
+    /* own examples */
+    _printf("%%%%%%%raaa%%%%%%%\n");
+    printf("%%%%%%%raaa%%%%%%%\n");
+    _printf("%%%%%%raaa%%%%%%\n");
+    printf("%%%%%%raaa%%%%%%\n");
     return (0);
 }

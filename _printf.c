@@ -9,30 +9,51 @@
  */
 int _printf(const char *format, ...)
 {
-	int i = 0, slen, perc = 0, n = 0;
+	unsigned int i = 0, j, slen, perc = 0, m, n = 0, skip;
 	va_list ap;
-	char *tmp;
+	char *tmp, *f;
+	char ac[] = {'c', 's', '%'};
+	m = strlen(format);
+	f = malloc(m + 1);
+	strcpy(f, format);
 
 	va_start(ap, format);
-	while (format && format[i])
+	while (format && f[i])
 	{
+		skip = 0;
+		tmp = malloc(1);
+		if (f[i] == '%')
+			perc += 1;
 		if (i == 0)
 		{
-			if (format[i] != '%')
+			if (f[i] != '%')
 			{
-				tmp[0] = format[i];
+				tmp[0] = f[i];
 				n += 1;
 				write(1, tmp, 1);
 			}
-			else
-				perc += 1;
+		}
+		else if (f[i] == '%' && f[i - 1] != '%' && i < m - 1)
+		{
+			for (j = 0; j < 3; j++)
+			{
+				if (f[i + 1] == ac[j])
+				{
+					skip = 1;
+					break;
+				}
+			}
+			if (!skip)
+			{
+				tmp[0] = f[i];
+				write(1, tmp, 1);
+			}
 		}
 		else
 		{
-			printf("p1");
-			if (format[i - 1] == '%')
+			if (f[i - 1] == '%')
 			{	
-				switch (format[i])
+				switch (f[i])
 				{
 					case 'c':
 						tmp[0] = va_arg(ap, int);
@@ -46,16 +67,21 @@ int _printf(const char *format, ...)
 						write(1, tmp, slen);
 						break;
 					case '%':
-						perc += 1;
+						tmp = "%";
 						if (perc % 2 == 0)
 						{
-							tmp = "%";
 							n += 1;
 							write(1, tmp, 1);
 						}
+						else if (f[i + 1] != '%')
+						{
+							n += 1;
+							write(1, tmp, 1);
+							perc = 0;
+						}
 						break;
 					default:
-						tmp[0] = format[i];
+						tmp[0] = f[i];
 						n += 1;
 						write(1, tmp, 1);
 						break;
@@ -63,7 +89,7 @@ int _printf(const char *format, ...)
 			}
 			else
 			{
-				tmp[0] = format[i];
+				tmp[0] = f[i];
 				n += 1;	
 				write(1, tmp, 1);
 			}
@@ -71,6 +97,5 @@ int _printf(const char *format, ...)
 		i++;
 	}
 	va_end(ap);
-	printf("\n");
 	return (n);
 }
