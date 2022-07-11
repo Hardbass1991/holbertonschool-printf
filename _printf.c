@@ -11,10 +11,12 @@ int _printf(const char *format, ...)
 {
 	unsigned int i = 0, j, slen, perc = 0, m, n = 0, skip;
 	va_list ap;
-	char *tmp, *f;
+	char *tmp, *str, *f;
 	char ac[] = {'c', 's', '%'};
 
-	if (!strcmp(format, "%") || !format)
+	if (!format)
+		return (-1);
+	if (!strcmp(format, "%"))
 		return (-1);
 	m = strlen(format);
 	f = malloc(m + 1);
@@ -24,10 +26,10 @@ int _printf(const char *format, ...)
 	{
 		skip = 0;
 		tmp = malloc(1);
-		if (!tmp)
+		if (tmp == NULL)
 		{
 			free(tmp);
-			return (1);
+			return (-1);
 		}
 		if (f[i] == '%')
 		{
@@ -68,8 +70,11 @@ int _printf(const char *format, ...)
 						write(1, tmp, 1);
 						break;
 					case 's':
-						tmp = va_arg(ap, char*);
-						slen = strlen(tmp);
+						str = va_arg(ap, char*);
+						slen = strlen(str);
+						free(tmp);
+						tmp = malloc(slen);
+						strcpy(tmp, str);
 						n += slen;
 						write(1, tmp, slen);
 						break;
