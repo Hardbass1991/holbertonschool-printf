@@ -76,6 +76,8 @@ int _printf(const char *format, ...)
 						break;
 					case 's':
 						str = va_arg(ap, char*);
+						if (!str)
+							str = "(null)";
 						slen = strlen(str);
 						free(tmp);
 						tmp = malloc(slen);
