@@ -79,7 +79,7 @@ int _printf(const char *format, ...)
 						write(1, tmp, slen);
 						break;
 					case '%':
-						tmp = "%";
+						tmp[0] = '%';
 						if (perc % 2 == 0)
 						{
 							n += 1;
