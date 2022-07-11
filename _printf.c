@@ -13,20 +13,35 @@ int _printf(const char *format, ...)
 	va_list ap;
 	char *tmp, *f;
 	char ac[] = {'c', 's', '%'};
+
+	if (!strcmp(format, "%"))
+		return (-1);
 	m = strlen(format);
 	f = malloc(m + 1);
 	strcpy(f, format);
-
 	va_start(ap, format);
 	while (format && f[i])
 	{
 		skip = 0;
 		tmp = malloc(1);
+		if (!tmp)
+		{
+			free(tmp);
+			return (1);
+		}
 		if (f[i] == '%')
+		{
 			perc += 1;
+			for (j = 0; j < 3; j++)
+				if (f[i + 1] == ac[j])
+				{
+					skip = 1;
+					break;
+				}
+		}
 		if (i == 0)
 		{
-			if (f[i] != '%')
+			if (!skip)
 			{
 				tmp[0] = f[i];
 				n += 1;
@@ -35,14 +50,6 @@ int _printf(const char *format, ...)
 		}
 		else if (f[i] == '%' && f[i - 1] != '%' && i < m - 1)
 		{
-			for (j = 0; j < 3; j++)
-			{
-				if (f[i + 1] == ac[j])
-				{
-					skip = 1;
-					break;
-				}
-			}
 			if (!skip)
 			{
 				tmp[0] = f[i];
@@ -95,7 +102,9 @@ int _printf(const char *format, ...)
 			}
 		}
 		i++;
+		/*printf("n = %d\n", n);*/
 	}
 	va_end(ap);
+	free(tmp);
 	return (n);
 }
