@@ -14,7 +14,7 @@ int _printf(const char *format, ...)
 	char *tmp, *f;
 	char ac[] = {'c', 's', '%'};
 
-	if (!strcmp(format, "%"))
+	if (!strcmp(format, "%") || !format)
 		return (-1);
 	m = strlen(format);
 	f = malloc(m + 1);
@@ -103,8 +103,9 @@ int _printf(const char *format, ...)
 		}
 		i++;
 		/*printf("n = %d\n", n);*/
+		free(tmp);
 	}
 	va_end(ap);
-	free(tmp);
+	free(f);
 	return (n);
 }
