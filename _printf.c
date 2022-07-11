@@ -63,7 +63,7 @@ int _printf(const char *format, ...)
 					case 's':
 						tmp = va_arg(ap, char*);
 						slen = strlen(tmp);
-						n += 1;
+						n += slen;
 						write(1, tmp, slen);
 						break;
 					case '%':
