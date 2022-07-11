@@ -20,6 +20,11 @@ int _printf(const char *format, ...)
 		return (-1);
 	m = strlen(format);
 	f = malloc(m + 1);
+	if (!f)
+	{
+		free(f);
+		return (-1);
+	}
 	strcpy(f, format);
 	va_start(ap, format);
 	while (format && f[i])
