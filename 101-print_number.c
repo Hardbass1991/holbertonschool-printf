@@ -1,5 +1,17 @@
 #include "main.h"
 #include <stdio.h>
+#include <limits.h>
+#include <unistd.h>
+/**
+ * cheap_trick - covers the exceptional case of INT_MIN
+ *
+ * Return: number of characters in INT_MIN
+ */
+int cheap_trick(void)
+{
+	write(1, "-2147483648", 11);
+	return (11);
+}
 /**
  * print_number - prints an input int
  * @n: input int to print
@@ -11,6 +23,8 @@ int print_number(int n)
 	int a = 0, i, j, _n = n, N = 0;
 	int tens = 1;
 
+	if (n == INT_MIN)
+		return (cheap_trick());
 	if (_n < 0)
 	{
 		N += 1;
