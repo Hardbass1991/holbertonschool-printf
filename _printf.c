@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "main.h"
 /**
  * print_all - prints everyargument passe according to input format string
  * @format: input format string
@@ -12,7 +13,7 @@ int _printf(const char *format, ...)
 	unsigned int i = 0, j, slen, perc = 0, m, n = 0, skip;
 	va_list ap;
 	char *tmp, *str, *f;
-	char ac[] = {'c', 's', '%'};
+	char ac[] = {'c', 's', '%', 'd', 'i'};
 
 	if (!format)
 		return (-1);
@@ -39,7 +40,7 @@ int _printf(const char *format, ...)
 		if (f[i] == '%')
 		{
 			perc += 1;
-			for (j = 0; j < 3; j++)
+			for (j = 0; j < 5; j++)
 				if (f[i + 1] == ac[j])
 				{
 					skip = 1;
@@ -104,6 +105,9 @@ int _printf(const char *format, ...)
 							perc = 0;
 						}
 						break;
+					case 'd': case 'i':
+						n += print_number(va_arg(ap, int));
+						break;
 					default:
 						tmp[0] = f[i];
 						n += 1;
@@ -119,7 +123,6 @@ int _printf(const char *format, ...)
 			}
 		}
 		i++;
-		/*printf("n = %d\n", n);*/
 		free(tmp);
 	}
 	va_end(ap);
