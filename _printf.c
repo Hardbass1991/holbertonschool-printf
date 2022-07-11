@@ -74,6 +74,11 @@ int _printf(const char *format, ...)
 						slen = strlen(str);
 						free(tmp);
 						tmp = malloc(slen);
+						if (!tmp)
+						{
+							free(tmp);
+							return (-1);
+						}
 						strcpy(tmp, str);
 						n += slen;
 						write(1, tmp, slen);
