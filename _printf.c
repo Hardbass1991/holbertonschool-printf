@@ -8,7 +8,7 @@
  * _printf - prints every argument passed according to input format string
  * @format: input format string
  *
- * Return: number of characters printed
+ * Return: number of printed characters.
  */
 int _printf(const char *format, ...)
 {
