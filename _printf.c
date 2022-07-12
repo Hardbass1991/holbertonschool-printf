@@ -5,8 +5,10 @@
 #include <unistd.h>
 #include "main.h"
 /**
- * print_all - prints everyargument passe according to input format string
+ * _printf - prints every argument passed according to input format string
  * @format: input format string
+ 
+ * Return: number of printed characters.
  */
 int _printf(const char *format, ...)
 {
